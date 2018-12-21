@@ -88,7 +88,7 @@ namespace SUIFW
             {
                 Debug.LogError(GetType() + "/LoadAsset()/克隆资源不成功，请检查。 path=" + path);
             }
-            //goObj = null;//??????????
+            //goObj = null;
             return goObjClone;
         }       
     }//Class_end

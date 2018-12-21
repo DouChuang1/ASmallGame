@@ -70,5 +70,15 @@ namespace SUIFW
             this.gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// 绑定按钮事件
+        /// </summary>
+        /// <param name="buttonName"></param>
+        /// <param name="dele"></param>
+        protected void RegisterButtonEvent(string buttonName,EventTriggerListener.VoidDelegate dele)
+        {
+
+        }
+
 	}
 }

@@ -32,7 +32,25 @@ namespace SUIFW
             print("查询结果 strResult=" + strResult);
 
             UIManager.GetInstance().ShowUIForms("LogonUIForm");
-		}
+
+            Stack<int> testStack = new Stack<int>();
+
+            testStack.Push(1);
+            testStack.Push(2);
+            testStack.Push(3);
+            testStack.Push(4);
+
+            testStack.Pop();
+            testStack.Pop();
+            testStack.Pop();
+            testStack.Pop();
+
+            testStack.Push(2);
+            testStack.Push(3);
+            testStack.Push(4);
+            testStack.Push(5);
+
+        }
 		
 	}
 }

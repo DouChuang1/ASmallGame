@@ -42,6 +42,8 @@ namespace SUIFW
         //UI管理脚本的节点
 	    private Transform _TraUIScripts = null;
 
+        //定义栈集合 处理具有反向切换功能的UIForm
+        private Stack<BaseUIForm> _StaCurrentUIForm;
 
         /// <summary>
         /// 得到实例
@@ -63,8 +65,9 @@ namespace SUIFW
             _DicALLUIForms=new Dictionary<string, BaseUIForm>();
             _DicCurrentShowUIForms=new Dictionary<string, BaseUIForm>();
             _DicFormsPaths=new Dictionary<string, string>();
+            _StaCurrentUIForm = new Stack<BaseUIForm>();
             //初始化加载（根UI窗体）Canvas预设
-	        InitRootCanvasLoading();
+            InitRootCanvasLoading();
 	        //得到UI根节点、全屏节点、固定节点、弹出节点
             _TraCanvasTransfrom = GameObject.FindGameObjectWithTag(SysDefine.SYS_TAG_CANVAS).transform;
             _TraNormal = _TraCanvasTransfrom.Find("Normal");
@@ -80,6 +83,9 @@ namespace SUIFW
 	        if (_DicFormsPaths!=null)
 	        {
                 _DicFormsPaths.Add("LogonUIForm", @"Prefab\LogonUIForm");
+                _DicFormsPaths.Add("SelectSceneUIForm", @"Prefab\SelectSceneUIForm");
+                _DicFormsPaths.Add("MainUIForm", @"Prefab\MainUIForm");
+                _DicFormsPaths.Add("PlayerInfoUIForm", @"Prefab\PlayerInfoUIForm");
             }
 	    }
 
@@ -99,17 +105,25 @@ namespace SUIFW
             //根据UI窗体的名称，加载到“所有UI窗体”缓存集合中
             baseUIForms = LoadFormsToAllUIFormsCatch(uiFormName);
             if (baseUIForms == null) return;
+
+            //一个栈结构跳转到另外一个栈结构 需要清空之前的栈
+            if(baseUIForms.CurrentUIType.isClearStack)
+            {
+                ClearStack();
+            }
+
             //根据不同的UI窗体的显示模式，分别作不同的加载处理
             switch (baseUIForms.CurrentUIType.UIForms_ShowMode)
             {                    
                 case UIFormShowMode.Normal:                 //“普通显示”窗口模式
                     //Todo.....
+                    LoadUIToCurrentCache(uiFormName);
                     break;
                 case UIFormShowMode.ReverseChange:          //需要“反向切换”窗口模式
-                    //更靠后课程进行讲解。
+                    PushUIFormToStack(uiFormName);
                     break;
                 case UIFormShowMode.HideOther:              //“隐藏其他”窗口模式
-                    //更靠后课程进行讲解。
+                    EnterUIFormHideOthers(uiFormName);
                     break;
                 default:
                     break;
@@ -191,7 +205,7 @@ namespace SUIFW
                 }
 
                 //设置隐藏
-                //goCloneUIPrefabs.SetActive(false);
+                goCloneUIPrefabs.SetActive(false);
                 //把克隆体，加入到“所有UI窗体”（缓存）集合中。
                 _DicALLUIForms.Add(uiFormName, baseUiForm);
                 return baseUiForm;
@@ -203,7 +217,179 @@ namespace SUIFW
 
             Debug.Log("出现不可以预估的错误，请检查，参数 uiFormName="+uiFormName);
             return null;
-        }//Mehtod_end
+        }
+        
+        private void LoadUIToCurrentCache(string uiFormName)
+        {
+            BaseUIForm baseUIForm;
+            BaseUIForm baseUIFormFromAllCache;
 
-	}//class_end
+            _DicCurrentShowUIForms.TryGetValue(uiFormName, out baseUIForm);
+            if (baseUIForm != null) return;
+            _DicALLUIForms.TryGetValue(uiFormName, out baseUIFormFromAllCache);
+
+            if(baseUIFormFromAllCache != null)
+            {
+                _DicCurrentShowUIForms.Add(uiFormName, baseUIFormFromAllCache);
+                baseUIFormFromAllCache.Display();
+            }
+        }
+
+        /// <summary>
+        /// UI窗体入栈
+        /// </summary>
+        /// <param name="窗体名字"></param>
+        private void PushUIFormToStack(string uiFormName)
+        {
+            BaseUIForm currentUIForm;
+            //判断栈集合中 是否有其他窗体 如果有 冻结处理
+            if(_StaCurrentUIForm.Count>0)
+            {
+                BaseUIForm topUIForm = _StaCurrentUIForm.Peek();
+                topUIForm.Freeze();
+            }
+            //判断UI所有窗体 是否有指定UI 有则处理 没有报错
+            _DicALLUIForms.TryGetValue(uiFormName, out currentUIForm);
+            if (currentUIForm != null)
+            {
+                currentUIForm.Display();
+                //入栈
+                _StaCurrentUIForm.Push(currentUIForm);
+            }
+            else
+            {
+                Debug.LogError("UI 加载错误");
+            }
+        }
+
+        private void EnterUIFormHideOthers(string uiFormName)
+        {
+            BaseUIForm currentUIForm;
+            BaseUIForm currentUIFormFromAll;
+            _DicCurrentShowUIForms.TryGetValue(uiFormName, out currentUIForm);
+            if (currentUIForm != null) return;
+
+            foreach(var it in _DicCurrentShowUIForms.Values)
+            {
+                it.Hiding();
+            }
+
+            foreach (var it in _StaCurrentUIForm)
+            {
+                it.Hiding();
+            }
+
+            _DicALLUIForms.TryGetValue(uiFormName, out currentUIFormFromAll);
+            if(currentUIFormFromAll!=null)
+            {
+                _DicCurrentShowUIForms.Add(uiFormName, currentUIFormFromAll);
+                currentUIFormFromAll.Display();
+            }
+        }
+
+        /// <summary>
+        /// 关闭 返回上一层级界面
+        /// </summary>
+        /// <param name="uiFormName"></param>
+        public void CloseUIForms(string uiFormName)
+        {
+            BaseUIForm currentUIForm;
+            //参数检查
+            if (string.IsNullOrEmpty(uiFormName)) return;
+
+            _DicALLUIForms.TryGetValue(uiFormName, out currentUIForm);
+
+            if (currentUIForm == null) return;
+
+            switch(currentUIForm.CurrentUIType.UIForms_ShowMode)
+            {
+                case UIFormShowMode.Normal:
+                    NormalCloseUIForm(uiFormName);
+                    break;
+                case UIFormShowMode.ReverseChange:
+                    ReverseCloseUIForm();
+                    break;
+                case UIFormShowMode.HideOther:
+                    HideOtherUIFormClose(uiFormName);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 正常窗体关闭处理
+        /// </summary>
+        /// <param name="uiFormName"></param>
+        private void NormalCloseUIForm(string uiFormName)
+        {
+            BaseUIForm currentUIForm;
+            //参数检测
+            _DicCurrentShowUIForms.TryGetValue(uiFormName, out currentUIForm);
+            if (currentUIForm == null) return;
+
+            //关闭界面
+            currentUIForm.Hiding();
+            //移除集合中的窗体
+            _DicCurrentShowUIForms.Remove(uiFormName);
+        }
+
+        /// <summary>
+        /// 反转窗体界面关闭
+        /// </summary>
+        private void ReverseCloseUIForm()
+        {
+            if(_StaCurrentUIForm.Count>=2)
+            {
+                BaseUIForm topUIForm = _StaCurrentUIForm.Pop();
+                topUIForm.Hiding();
+
+                BaseUIForm nextUIForm = _StaCurrentUIForm.Peek();
+                nextUIForm.Redisplay();
+            }
+            else if(_StaCurrentUIForm.Count==1)
+            {
+                BaseUIForm topUIForm = _StaCurrentUIForm.Pop();
+                topUIForm.Hiding();
+            }
+        }
+
+        /// <summary>
+        /// 隐藏其他类型的UI窗口关闭处理
+        /// </summary>
+        /// <param name="uiFormName"></param>
+        private void HideOtherUIFormClose(string uiFormName)
+        {
+            BaseUIForm currentUIForm;
+            _DicCurrentShowUIForms.TryGetValue(uiFormName, out currentUIForm);
+            if (currentUIForm == null) return;
+            currentUIForm.Hiding();
+            _DicCurrentShowUIForms.Remove(uiFormName);
+
+            foreach (var it in _DicCurrentShowUIForms.Values)
+            {
+                it.Redisplay();
+            }
+
+            foreach (var it in _StaCurrentUIForm)
+            {
+                it.Redisplay();
+            }
+
+        }
+
+        /// <summary>
+        /// 清空栈集合
+        /// </summary>
+        /// <returns></returns>
+        private void ClearStack()
+        {
+            if(_StaCurrentUIForm!=null && _StaCurrentUIForm.Count>=1)
+            {
+                _StaCurrentUIForm.Clear();
+            }
+        }
+        //Mehtod_end
+
+    }//class_end
 }
