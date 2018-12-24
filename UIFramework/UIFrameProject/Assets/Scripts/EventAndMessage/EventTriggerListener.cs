@@ -41,7 +41,6 @@ namespace SUIFW
             EventTriggerListener lister = go.GetComponent<EventTriggerListener>();
             if (lister==null)
             {
-                Debug.LogError("lister==null");
                 lister = go.AddComponent<EventTriggerListener>();                
             }
             return lister;

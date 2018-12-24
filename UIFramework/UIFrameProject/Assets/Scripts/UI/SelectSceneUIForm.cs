@@ -12,11 +12,8 @@ public class SelectSceneUIForm : BaseUIForm {
         base.CurrentUIType.UIForms_ShowMode = UIFormShowMode.Normal;
         base.CurrentUIType.UIForms_Type = UIFormType.Normal;
         base.CurrentUIType.UIForm_LucencyType = UIFormLucenyType.ImPenetrable;
-        enterGame_btn = transform.Find("enterBtn").gameObject;
-        backToLogin_btn = transform.Find("backBtn").gameObject;
-
-        EventTriggerListener.Get(enterGame_btn).onClick = EnterGame;
-        EventTriggerListener.Get(backToLogin_btn).onClick = BackToLogin;
+        RegisterButtonEvent("enterBtn", EnterGame);
+        RegisterButtonEvent("backBtn", BackToLogin);
     }
 
     private void EnterGame(GameObject go)

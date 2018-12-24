@@ -77,8 +77,32 @@ namespace SUIFW
         /// <param name="dele"></param>
         protected void RegisterButtonEvent(string buttonName,EventTriggerListener.VoidDelegate dele)
         {
-
+            GameObject go = UnityHelper.FindChildNode(this.gameObject, buttonName).gameObject;
+            if(go!=null)
+            {
+                EventTriggerListener.Get(go).onClick = dele;
+            }
+          
         }
 
-	}
+        /// <summary>
+        /// 打开UI窗口
+        /// </summary>
+        /// <param name="uiFormName"></param>
+        protected void OpenUIForm(string uiFormName)
+        {
+            UIManager.GetInstance().ShowUIForms(uiFormName);
+        }
+
+        /// <summary>
+        /// 关闭UI窗口
+        /// </summary>
+        /// <param name="uiFormName"></param>
+        protected void CloseUIForm(string uiFormName)
+        {
+            //参数可以不要
+            UIManager.GetInstance().CloseUIForms(uiFormName);
+        }
+
+    }
 }
