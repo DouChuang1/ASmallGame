@@ -5,13 +5,10 @@ using SUIFW;
 
 public class MainUIForm : BaseUIForm {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void Awake()
+    {
+        RegisterButtonEvent("equipmentBtn", x => OpenUIForm("MarketUIForm"));
+     
+    }
+
 }

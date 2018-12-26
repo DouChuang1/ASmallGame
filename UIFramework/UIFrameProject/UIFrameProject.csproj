@@ -80,11 +80,13 @@
     <Compile Include="Assets\Scripts\Config\SysDefine.cs" />
     <Compile Include="Assets\Scripts\EventAndMessage\EventTriggerListener.cs" />
     <Compile Include="Assets\Scripts\Helps\ResourcesMgr.cs" />
+    <Compile Include="Assets\Scripts\Helps\UIMaskMgr.cs" />
     <Compile Include="Assets\Scripts\Helps\UnityHelper.cs" />
     <Compile Include="Assets\Scripts\Log\Log.cs" />
     <Compile Include="Assets\Scripts\Test\Test.cs" />
     <Compile Include="Assets\Scripts\UI\LoginUIForm.cs" />
     <Compile Include="Assets\Scripts\UI\MainUIForm.cs" />
+    <Compile Include="Assets\Scripts\UI\MarketUIForm.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerInfoUIForm.cs" />
     <Compile Include="Assets\Scripts\UI\SelectSceneUIForm.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />

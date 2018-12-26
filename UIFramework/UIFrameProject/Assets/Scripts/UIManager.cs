@@ -86,6 +86,7 @@ namespace SUIFW
                 _DicFormsPaths.Add("SelectSceneUIForm", @"Prefab\SelectSceneUIForm");
                 _DicFormsPaths.Add("MainUIForm", @"Prefab\MainUIForm");
                 _DicFormsPaths.Add("PlayerInfoUIForm", @"Prefab\PlayerInfoUIForm");
+                _DicFormsPaths.Add("MarketUIForm", @"Prefab\MarketUIForm");
             }
 	    }
 

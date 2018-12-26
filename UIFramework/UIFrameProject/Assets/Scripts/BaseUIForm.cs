@@ -44,6 +44,10 @@ namespace SUIFW
 	    public virtual void Display()
 	    {
 	        this.gameObject.SetActive(true);
+            if(_CurrentUIType.UIForms_Type == UIFormType.PopUp)
+            {
+                UIMaskMgr.GetInstance().SetMaskWindow(this.gameObject, _CurrentUIType.UIForm_LucencyType);
+            }
         }
 
         /// <summary>
@@ -52,6 +56,10 @@ namespace SUIFW
 	    public virtual void Hiding()
 	    {
             this.gameObject.SetActive(false);
+            if (_CurrentUIType.UIForms_Type == UIFormType.PopUp)
+            {
+                UIMaskMgr.GetInstance().CancelMaskWindow();
+            }
         }
 
         /// <summary>
@@ -60,6 +68,10 @@ namespace SUIFW
 	    public virtual void Redisplay()
 	    {
             this.gameObject.SetActive(true);
+            if (_CurrentUIType.UIForms_Type == UIFormType.PopUp)
+            {
+                UIMaskMgr.GetInstance().SetMaskWindow(this.gameObject, _CurrentUIType.UIForm_LucencyType);
+            }
         }
 
         /// <summary>

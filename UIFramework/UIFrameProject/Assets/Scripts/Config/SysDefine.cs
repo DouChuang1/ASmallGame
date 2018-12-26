@@ -55,6 +55,8 @@ namespace SUIFW
         /* 标签常量 */
         public const string SYS_TAG_CANVAS = "_TagCanvas";
 
+        public const string SYS_TAG_CAMERA = "_TagCamera";
+
         /* 全局性的方法 */
         //Todo...
 
