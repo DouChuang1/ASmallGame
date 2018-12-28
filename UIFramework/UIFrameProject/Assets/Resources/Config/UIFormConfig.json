@@ -1,0 +1,24 @@
+﻿{
+    "ConfigInfo": [
+        {
+            "Key": "LogonUIForm",
+            "Value": "Prefab\\LogonUIForm"
+        },
+        {
+            "Key": "SelectSceneUIForm",
+            "Value": "Prefab\\SelectSceneUIForm"
+        },
+        {
+            "Key": "MainUIForm",
+            "Value": "Prefab\\MainUIForm"
+        },
+        {
+            "Key": "PlayerInfoUIForm",
+            "Value": "Prefab\\PlayerInfoUIForm"
+        },
+        {
+            "Key": "MarketUIForm",
+            "Value": "Prefab\\MarketUIForm"
+        }
+    ]
+}

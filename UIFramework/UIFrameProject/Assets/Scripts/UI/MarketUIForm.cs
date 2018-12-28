@@ -13,5 +13,7 @@ public class MarketUIForm : BaseUIForm {
         base.CurrentUIType.UIForm_LucencyType = UIFormLucenyType.ImPenetrable;
 
         RegisterButtonEvent("backBtn", x => CloseUIForm("MarketUIForm"));
+        GL.Clear(false, true, Color.black);
+
     }
 }

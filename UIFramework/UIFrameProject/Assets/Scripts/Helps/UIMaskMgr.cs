@@ -46,7 +46,7 @@ public class UIMaskMgr : MonoBehaviour {
         {
             _OriginalUICameraDepth = _UICamera.depth;
         }
-
+       
     }
 
     /// <summary>

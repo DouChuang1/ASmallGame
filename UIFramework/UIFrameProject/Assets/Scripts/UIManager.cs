@@ -82,14 +82,20 @@ namespace SUIFW
             //先写简单的，后面我们使用Json做配置文件，来完善。
 	        if (_DicFormsPaths!=null)
 	        {
-                _DicFormsPaths.Add("LogonUIForm", @"Prefab\LogonUIForm");
-                _DicFormsPaths.Add("SelectSceneUIForm", @"Prefab\SelectSceneUIForm");
-                _DicFormsPaths.Add("MainUIForm", @"Prefab\MainUIForm");
-                _DicFormsPaths.Add("PlayerInfoUIForm", @"Prefab\PlayerInfoUIForm");
-                _DicFormsPaths.Add("MarketUIForm", @"Prefab\MarketUIForm");
+                //_DicFormsPaths.Add("LogonUIForm", @"Prefab\LogonUIForm");
+                //_DicFormsPaths.Add("SelectSceneUIForm", @"Prefab\SelectSceneUIForm");
+                //_DicFormsPaths.Add("MainUIForm", @"Prefab\MainUIForm");
+                //_DicFormsPaths.Add("PlayerInfoUIForm", @"Prefab\PlayerInfoUIForm");
+                //_DicFormsPaths.Add("MarketUIForm", @"Prefab\MarketUIForm");
+                InitUIFormConfigData();
             }
 	    }
 
+        private void InitUIFormConfigData()
+        {
+            IConfigManager iConfigMgr = new ConfigManager("Config/UIFormConfig");
+            _DicFormsPaths = iConfigMgr.AppSetting;
+        }
         /// <summary>
         /// 显示（打开）UI窗体
         /// 功能：
