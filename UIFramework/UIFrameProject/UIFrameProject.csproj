@@ -247,7 +247,9 @@
     <Compile Include="Assets\Scripts\Helps\UIMaskMgr.cs" />
     <Compile Include="Assets\Scripts\Helps\UnityHelper.cs" />
     <Compile Include="Assets\Scripts\Log\Log.cs" />
+    <Compile Include="Assets\Scripts\MessageCenter\MessageCenter.cs" />
     <Compile Include="Assets\Scripts\Test\Test.cs" />
+    <Compile Include="Assets\Scripts\UI\ItemsInfoUIForm.cs" />
     <Compile Include="Assets\Scripts\UI\LoginUIForm.cs" />
     <Compile Include="Assets\Scripts\UI\MainUIForm.cs" />
     <Compile Include="Assets\Scripts\UI\MarketUIForm.cs" />

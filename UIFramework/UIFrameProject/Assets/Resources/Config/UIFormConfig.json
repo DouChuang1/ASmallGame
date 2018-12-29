@@ -16,9 +16,13 @@
             "Key": "PlayerInfoUIForm",
             "Value": "Prefab\\PlayerInfoUIForm"
         },
-        {
-            "Key": "MarketUIForm",
-            "Value": "Prefab\\MarketUIForm"
-        }
+      {
+        "Key": "MarketUIForm",
+        "Value": "Prefab\\MarketUIForm"
+      },
+      {
+            "Key": "ItemsInfoUIForm",
+            "Value": "Prefab\\ItemsInfoUIForm"
+       }
     ]
 }

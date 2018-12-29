@@ -18,6 +18,7 @@ namespace SUIFW
 
         private void Awake()
         {
+            
             Debug.LogError("LoginUIForm Init");
             base.CurrentUIType.UIForms_ShowMode = UIFormShowMode.Normal;
             base.CurrentUIType.UIForms_Type = UIFormType.Normal;
@@ -25,7 +26,7 @@ namespace SUIFW
            
             EventTriggerListener.Get(LoginObj).onClick = LoginClick;
         }
-
+        
         public override void Display()
         {
             this.gameObject.SetActive(true);

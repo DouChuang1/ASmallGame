@@ -35,7 +35,6 @@ public class ConfigManager : IConfigManager
         try
         {
             textAsset = Resources.Load<TextAsset>(jsonPath);
-            Debug.LogError("LOG" + textAsset.text);
             keyValueObj = JsonUtility.FromJson<KeyValueInfo>(textAsset.text);
             //textAsset = Resources.Load<TextAsset>(jsonPath);
         }

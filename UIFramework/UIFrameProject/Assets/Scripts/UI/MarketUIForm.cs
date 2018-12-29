@@ -13,7 +13,12 @@ public class MarketUIForm : BaseUIForm {
         base.CurrentUIType.UIForm_LucencyType = UIFormLucenyType.ImPenetrable;
 
         RegisterButtonEvent("backBtn", x => CloseUIForm("MarketUIForm"));
-        GL.Clear(false, true, Color.black);
+        RegisterButtonEvent("item1", p =>
+        {
+            OpenUIForm("ItemsInfoUIForm");
+            MessageCenter.Post("ItemsInfo", new KeyValuesUpdate("Info", "详细信息"));
+        }
+        );
 
     }
 }
